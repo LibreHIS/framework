@@ -1,0 +1,87 @@
+package ims.framework;
+
+import ims.configuration.AppRight;
+import ims.framework.enumerations.ImageType;
+import ims.framework.interfaces.IAddressProvider;
+import ims.framework.interfaces.IAppRole;
+import ims.framework.interfaces.IAppUser;
+import ims.framework.interfaces.IExternalEncodingProvider;
+import ims.framework.interfaces.ILocation;
+import ims.framework.interfaces.INotificationsProvider;
+import ims.framework.interfaces.IPrintersProvider;
+import ims.framework.interfaces.ISystemLogProvider;
+import ims.framework.interfaces.ISystemLogWriter;
+import ims.framework.interfaces.IUploadDownloadUrlProvider;
+import ims.framework.utils.Color;
+import ims.framework.utils.Image;
+import ims.scheduler.IScheduledJobsProvider;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class UIComponentEngine implements ISystemLogWriter, Serializable 
+{
+	private static final long serialVersionUID = 1L;
+	
+	public abstract String getSessionId();
+	public abstract void showMessage(String text);
+	public abstract void showMessage(String text, String title);
+	public abstract int showMessage(String text, String title, MessageButtons buttons);
+    public abstract int showMessage(String text, String title, MessageButtons buttons, MessageIcon icon);
+    public abstract int showMessage(String text, String title, MessageButtons buttons, MessageIcon icon, MessageDefaultButton defaultButton);
+    public abstract void showProgressBar(String text);
+    public abstract boolean open(ims.framework.FormName value);
+	public abstract boolean open(ims.framework.FormName value, boolean showCloseButtonIfAvailable);
+    public abstract boolean open(ims.framework.FormName value, String caption);
+	public abstract boolean open(ims.framework.FormName value, String caption, boolean showCloseButtonIfAvailable);	
+	public abstract boolean open(ims.framework.FormName value, Object[] params);
+	public abstract boolean open(FormName value, Object[] params, boolean showCloseButtonIfAvailable);
+    public abstract boolean open(FormName value, Object[] params, boolean showCloseButtonIfAvailable, boolean resizableDialog);    
+    public abstract boolean open(FormName value, Object[] params, String caption);
+    public abstract boolean open(FormName value, Object[] params, String caption, boolean showCloseButtonIfAvailable);
+    public abstract boolean open(FormName value, Object[] params, String caption, boolean showCloseButtonIfAvailable, boolean resizableDialog);    	
+    public abstract void showErrors(String[] value);
+	public abstract void showErrors(String title, String[] value);
+    public abstract Image getRegisteredImage(int id);
+    public abstract Image[] getRegisteredImages();
+    public abstract FormName getFormName();
+    public abstract void openUrl(String url);
+    public abstract void openUrl(String url, List<UrlParam> params);
+    public abstract boolean canOpen(FormName value);
+    public abstract IAddressProvider getAddressProvider();
+	public abstract ISystemLogProvider getSystemLogProvider();
+    public abstract String getRequestUrl();
+    public abstract void deleteFile(String fileName);
+	public abstract void runExternalApplication(String filePath);
+	public abstract void runExternalApplication(String filePath, boolean allowMultipleInstances, String messageToBeDisplayedIfAlreadyRunning);
+	public abstract void runExternalApplication(String filePath, boolean allowMultipleInstances, boolean checkForRunningApplicationPerUserSession, String messageToBeDisplayedIfAlreadyRunning);
+    public abstract void setPatientInfo(String value);
+    public abstract void setPatientInfo(String value, Color textColor);
+    public abstract ILocation getCurrentLocation();
+    public abstract boolean hasRight(AppRight right);
+    public abstract void addAlert(Alert alert);    
+    public abstract void removeAlert(Alert alert);    
+    public abstract void clearAlertsByType(Class typeOfAlert);
+    public abstract void clearAlerts();
+    public abstract String uploadFile(String url, byte[] content, String fileName, String localFolder);
+    public abstract IAppUser getLoggedInUser();    
+    public abstract IAppRole getLoggedInRole();
+    public abstract IExternalEncodingProvider getExternalEncodingProvider();
+    public abstract INotificationsProvider getNotificationsProvider();
+    public abstract IUploadDownloadUrlProvider getUploadDownloadUrlProvider();
+    public abstract IPrintersProvider getPrinterProvider();
+    public abstract IScheduledJobsProvider getScheduledJobsProvider();
+    public abstract boolean isRIEMode();
+	public abstract ArrayList<OutputStream> convertPdfToImages(byte[] inputBuffer, ImageType outputType, int dpi, int scalingFactor, int maxDimension)  throws IOException;
+    public abstract ArrayList<OutputStream> convertPdfToImages(byte[] inputBuffer, ImageType outputType, int dpi, int scalingFactor) throws IOException; 
+	public abstract ArrayList<OutputStream> convertPdfToImages(byte[] inputBuffer, ImageType outputType, int dpi)  throws IOException;
+	public abstract ArrayList<OutputStream> convertPdfToImages(byte[] inputBuffer, ImageType outputType)  throws IOException;
+	public abstract ArrayList<OutputStream> convertPdfToImages(byte[] inputBuffer)  throws IOException;
+	public abstract void copyToClipboard(String text);
+	public abstract void clearClipboard();
+	public abstract String getSAMLXmlContent();
+	public abstract boolean  allowPdsInteraction();
+}
